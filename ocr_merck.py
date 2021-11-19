@@ -42,7 +42,8 @@ docs_std_resolution = {
                         'RIO': {'NFS': (2480, 3509)},
                         'RODOLOG': {'NFS': (2483,3512), 'fatura_duplicata': (2480, 3509)},
                         'RUNTEC': {'NFS': (2480, 3525)},
-                        'SHIFT': {'NFS': (2480, 3509), 'nota_debito': (2481, 3509)}
+                        'SHIFT': {'NFS': (2480, 3509), 'nota_debito': (2481, 3509)},
+                        'DIREMADI': {'NFS': (2479, 3509)}
                        }
 
 dict_document = {
@@ -129,6 +130,16 @@ dict_map['RODOLOG']['recibo_locacao'] = {}
 dict_map['RODOLOG']['fatura_duplicata'] = {'con': (225, 365, 2005, 2050) ,'vencimento': (2015, 2230, 682, 730), 'nome': (337, 1231, 375, 420), 
                                            'PO': (10, 20, 10, 20) , 'valor': (2185, 2357, 1540, 1580), 'descricao': (120, 945, 1770, 1820)}
 dict_map['RODOLOG']['nota_debito'] = {}
+
+#DIREMADI
+dict_map['DIREMADI'] = {}
+dict_map['DIREMADI']['NFS'] = {'CNPJ': (796, 1078, 670, 710), 'con': (1880, 2100, 385, 431), 'vencimento': (1149, 1351, 735, 780),
+                          'nome': (910, 1539, 720, 760), 'PO': (485, 683, 1265, 1305), 'valor': (1324, 1620, 2082, 2120), 'descricao': (368, 2150, 1234, 1266)}
+
+dict_map['DIREMADI']['mapa_faturamento'] = {}
+dict_map['DIREMADI']['recibo_locacao'] = {}
+dict_map['DIREMADI']['fatura_duplicata'] = {}
+dict_map['DIREMADI']['nota_debito'] = {}
 
 def getField(filename, company, field, document, params=None):
 
