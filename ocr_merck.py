@@ -38,7 +38,7 @@ def isolate_field(image, x1, x2, y1, y2, coords: tuple):
 docs_std_resolution = {
                         'AGV': {'NFS': (2480, 3509), 'recibo_locacao': (2550, 3300), 'mapa_faturamento': (2550, 3300)},
                         'GKO': {'NFS': (3175, 4150)},
-                        'MOVE': {'NFS': (2480, 3509)},
+                        'MOVEIDEIAS': {'NFS': (2480, 3509)},
                         'RIO': {'NFS': (2480, 3509)},
                         'RODOLOG': {'NFS': (2483,3512), 'fatura_duplicata': (2480, 3509)},
                         'RUNTEC': {'NFS': (2480, 3525)},
@@ -100,15 +100,15 @@ dict_map['RUNTEC']['recibo_locacao'] = {}
 dict_map['RUNTEC']['fatura_duplicata'] = {}
 dict_map['RUNTEC']['nota_debito'] = {}
 
-#MOVE
-dict_map['MOVE'] = {}
-dict_map['MOVE']['NFS'] = {'CNPJ': (930, 1320, 380, 420), 'con': (340, 670, 227, 300), 'vencimento': (343, 465, 977, 1007),
+#MOVEIDEIAS
+dict_map['MOVEIDEIAS'] = {}
+dict_map['MOVEIDEIAS']['NFS'] = {'CNPJ': (930, 1320, 380, 420), 'con': (340, 670, 227, 300), 'vencimento': (343, 465, 977, 1007),
                           'nome': (725, 2230, 330, 380), 'PO': (640, 800, 915, 940), 'valor': (1010, 1200, 1730, 1790), 'descricao': (250, 1330, 950, 975)}
 
-dict_map['MOVE']['mapa_faturamento'] = {}
-dict_map['MOVE']['recibo_locacao'] = {}
-dict_map['MOVE']['fatura_duplicata'] = {}
-dict_map['MOVE']['nota_debito'] = {}
+dict_map['MOVEIDEIAS']['mapa_faturamento'] = {}
+dict_map['MOVEIDEIAS']['recibo_locacao'] = {}
+dict_map['MOVEIDEIAS']['fatura_duplicata'] = {}
+dict_map['MOVEIDEIAS']['nota_debito'] = {}
 
 #RIO
 dict_map['RIO'] = {}
@@ -140,6 +140,16 @@ dict_map['DIREMADI']['mapa_faturamento'] = {}
 dict_map['DIREMADI']['recibo_locacao'] = {}
 dict_map['DIREMADI']['fatura_duplicata'] = {}
 dict_map['DIREMADI']['nota_debito'] = {}
+
+#Get contractor's name
+def nomeFornecedor(filename):
+  img = cv2.imread(filename)
+  config_tesseract = '--oem 3  --psm 11'
+  texto = pytesseract.image_to_string(img, config=config_tesseract)
+  vetorResul = re.findall(r'AGV LOGISTICA SA|RIO LOPES TRANSPORTES LTDA|GKO INFORMATICA LTDA|MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP|Rodolog Transportes Multimodais Ltda|RUNTECH INFORMATICA LTDA|SHIFT GESTAO DE SERVICOS LTDA|DENISE DOS ANJOS PINTO LUCENA|DIREMADI MARKETING E SERVICOS LTDA', texto, flags=re.I)
+  result = vetorResul[0].split(" ");
+  company = result[0]
+  return company
 
 def getField(filename, company, field, document, params=None):
 
@@ -192,7 +202,8 @@ def compare(nota, planilha):
     return nota
 
 
-def run_ocr(filename, company, document, nome_planilha):
+def run_ocr(filename, document, nome_planilha):
+  company = nomeFornecedor(filename)
   dados = extract_data(filename, company, document)
   print(dados)
   if compare(dados, nome_planilha) == False:
@@ -203,9 +214,9 @@ def run_ocr(filename, company, document, nome_planilha):
 
 
 img_file = sys.argv[1]
-empresa = sys.argv[2]
-tipo_documento = sys.argv[3]
-planilha = sys.argv[4]
+#empresa = sys.argv[2]
+tipo_documento = sys.argv[2]
+planilha = sys.argv[3]
 
-result = run_ocr(img_file, empresa, tipo_documento, planilha)
+result = run_ocr(img_file, tipo_documento, planilha)
 print(result)
