@@ -1,4 +1,5 @@
 
+from m210 import fill_form
 import pytesseract
 import numpy as np
 import cv2 # OpenCV
@@ -58,7 +59,7 @@ dict_document = {
 dict_map = {}
 dict_map['AGV'] = {}
 dict_map['AGV']['NFS'] = {'CNPJ': (440, 760, 580, 630), 'con': (1910, 2164, 270, 320), 'vencimento': (470, 700, 1240, 1274),
-                          'nome': (575, 900, 640, 678), 'PO': (310, 540, 1280, 1325), 'valor': (1300, 1575, 2144, 2188), 'descricao': (245, 2175, 1200, 1235)}
+                          'nome': (550, 930, 640, 690), 'PO': (310, 540, 1280, 1325), 'valor': (1300, 1575, 2144, 2188), 'descricao': (245, 2175, 1200, 1235)}
 
 dict_map['AGV']['mapa_faturamento'] = {'CNPJ': (1067, 1383, 1802, 1847),'con': (432, 658, 320, 360), 'nome': (11037, 1412, 1752, 1793),'PO':(440, 2330, 860, 1080) ,
                                       'valor': (1953,2329, 1460, 1505)}
@@ -103,7 +104,7 @@ dict_map['RUNTEC']['nota_debito'] = {}
 #MOVEIDEIAS
 dict_map['MOVEIDEIAS'] = {}
 dict_map['MOVEIDEIAS']['NFS'] = {'CNPJ': (930, 1320, 380, 420), 'con': (340, 670, 227, 300), 'vencimento': (343, 465, 977, 1007),
-                          'nome': (725, 2230, 330, 380), 'PO': (640, 800, 915, 940), 'valor': (1010, 1200, 1730, 1790), 'descricao': (250, 1330, 950, 975)}
+                          'nome': (720, 2230, 330, 380), 'PO': (640, 800, 915, 940), 'valor': (1010, 1200, 1730, 1790), 'descricao': (250, 1330, 950, 975)}
 
 dict_map['MOVEIDEIAS']['mapa_faturamento'] = {}
 dict_map['MOVEIDEIAS']['recibo_locacao'] = {}
@@ -141,19 +142,47 @@ dict_map['DIREMADI']['recibo_locacao'] = {}
 dict_map['DIREMADI']['fatura_duplicata'] = {}
 dict_map['DIREMADI']['nota_debito'] = {}
 
+
+companies = ['AGV LOGISTICA SA', 
+            'RODOLOG TRANSPORTES MULTIMODAIS LTDA', 
+            'DIREMADI MARKETING E SERVICOS LTDA', 
+            'SHIFT GESTAO DE SERVICOS LTDA', 
+            'RUNTEC INFOMATICA LTDA', 
+            'DENISE DOS ANJOS PINTO LUCENA',
+            'GKO INFORMATICA LTDA',
+            'MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA',
+            'RIO LOPES TRANSPORTES LTDA'
+            ]
+
+#lcs algo
+def lcs(X, Y, m, n):
+  
+    if m == 0 or n == 0:
+       return 0
+    elif X[m-1] == Y[n-1]:
+       return 1 + lcs(X, Y, m-1, n-1)
+    else:
+       return max(lcs(X, Y, m, n-1), lcs(X, Y, m-1, n))
+
 #Get contractor's name
-def nomeFornecedor(filename):
+def nomeFornecedor(filename, full_name=False):
   img = cv2.imread(filename)
   config_tesseract = '--oem 3  --psm 11'
   texto = pytesseract.image_to_string(img, config=config_tesseract)
   vetorResul = re.findall(r'AGV LOGISTICA SA|RIO LOPES TRANSPORTES LTDA|GKO INFORMATICA LTDA|MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP|Rodolog Transportes Multimodais Ltda|RUNTECH INFORMATICA LTDA|SHIFT GESTAO DE SERVICOS LTDA|DENISE DOS ANJOS PINTO LUCENA|DIREMADI MARKETING E SERVICOS LTDA', texto, flags=re.I)
-  result = vetorResul[0].split(" ");
-  company = result[0]
+  result = vetorResul[0].split(" ")
+  if full_name == False:
+    company = result[0]
+  else:
+    company = vetorResul[0]
   return company
 
 def getField(filename, company, field, document, params=None):
 
   image = cv2.imread(filename,0)
+  if(field == 'nome'):
+    image = cv2.blur(image, (3,3))
+
   x1, x2, y1, y2 = dict_map[company][document][field]
 
   #funcs = {'NFS': lambda : isolate_field(image, x1, x2, y1, y2, docs_std_resolution[company][document])}
@@ -178,6 +207,10 @@ def extract_data(filename, company, document):
 
   for field in dict_document[document]:
     info[field] = getField(filename, company, field, document, params='--oem 3  --psm 6').strip()
+    if field == 'nome':
+      s = re.search(r'(?:[A-Z]| )+', info[field])
+      if s != None:
+        info[field] = s.group().strip()
 
   return info
 
@@ -189,9 +222,29 @@ def extract_data(filename, company, document):
 def compare(nota, planilha):
   df_xl = pd.read_excel(planilha)
   check = False
+
+  #and nota['valor'] == str(df_xl.loc[i, 'VALOR FATURA'])
+  temp = {}
+  temp['AGV LOGISTICA SA'] = 'AGV LOGISTICA'
+  temp['valor'] = ''
+  valor = re.findall(r'[0-9]+|,[0-9][0-9]', nota['valor'])
+  for e in valor:
+    if e != ',00':
+      temp['valor'] += e
+  print(temp['valor'])
+  temp['con'] = re.search(r'[1-9][0-9]*', nota['con']).group()
+
+  print(temp['con'])
   for i in range(len(df_xl)):
-    
-    if nota['nome'] == str(df_xl.loc[i, 'TRANSPORTADORA']) or nota['valor'] == str(df_xl.loc[i, 'VALOR A PAGAR'] or nota['con'] == str(df_xl.loc[i, 'NOTA FISCAL'])):
+    #and nota['valor'] == str(df_xl.loc[i, 'VALOR FATURA']
+
+    """ if i > 8360:
+        print(temp[nota['nome']],temp['valor'],temp['con'])
+        print(str(df_xl.loc[i, 'TRANSPORTADORA']),str(df_xl.loc[i, 'VALOR FATURA']),str(df_xl.loc[i, 'NOTA FISCAL']))
+        print() """
+
+    if temp[nota['nome']] == str(df_xl.loc[i, 'TRANSPORTADORA']) and eval(temp['valor']) == df_xl.loc[i, 'VALOR FATURA'] and temp['con'] == str(df_xl.loc[i, 'NOTA FISCAL']):
+      
       check = True
       break
 
@@ -210,7 +263,8 @@ def run_ocr(filename, document, nome_planilha):
     print('Nota Inválida')
     return None
   else:
-    return json.dumps(dados)
+    #return json.dumps(dados)
+    return dados
 
 
 img_file = sys.argv[1]
@@ -220,3 +274,7 @@ planilha = sys.argv[3]
 
 result = run_ocr(img_file, tipo_documento, planilha)
 print(result)
+out = result['nome']+result['con']+'.jpg'
+fill_form(result, 'm210_blank.jpg', out)
+
+#colunas A, D e M
