@@ -1,20 +1,24 @@
 docs_std_resolution = {
-                        'AGV': {'NFS': (2480, 3509), 'recibo_locacao': (2550, 3300), 'mapa_faturamento': (2550, 3300)},
+                        'AGV': {'NFS': (2480, 3509), 'recibo_locacao': (2550, 3300), 'mapa_faturamento': (2550, 3300),'custo_frete':(1753,1240),'fatura_duplicata': (989,1280)},
                         'GKO': {'NFS': (3175, 4150)},
                         'MOVEIDEIAS': {'NFS': (2480, 3509)},
                         'RIO': {'NFS': (2480, 3509)},
                         'RODOLOG': {'NFS': (2483,3512), 'fatura_duplicata': (2480, 3509)},
                         'RUNTEC': {'NFS': (2480, 3525)},
                         'SHIFT': {'NFS': (2480, 3509), 'nota_debito': (2481, 3509)},
-                        'DIREMADI': {'NFS': (2479, 3509)}
+                        'DIREMADI': {'NFS': (2479, 3509)},
+                        'DENISE': {'NFS': (2479, 3509)},
+                        'LINE': {'NFS':(1240,1755), 'fatura_duplicata':(1240,1755),'custo_frete':(1753,1240)},
+                        'ANDREANI':{'fatura_duplicata':(1240,1755), 'custo_frete':(1753,1240)}
                        }
 
 dict_document = {
-                'NFS': ['CNPJ', 'con', 'vencimento', 'nome', 'PO', 'valor', 'descricao'],
-                'recibo_locacao': ['con', 'nome', 'PO', 'valor', 'contaContabil', 'centroCusto'],
-                'nota_debito': ['con', 'vencimento', 'nome', 'PO', 'valor', 'descricao'],
-                'mapa_faturamento': ['PO', 'con', 'valor', 'nome', 'CNPJ'],
-                'fatura_duplicata': ['con', 'vencimento', 'nome', 'PO', 'valor', 'descricao']
+                'NFS': ['CNPJ', 'con', 'vencimento', 'nome', 'PO', 'valor', 'descricao'], #'desconto'],
+                'recibo_locacao': ['con', 'nome', 'PO', 'valor'],# 'contaContabil', 'centroCusto','desconto'],
+                'nota_debito': ['con', 'vencimento', 'nome', 'PO', 'valor'], #'descricao','desconto'],
+                'mapa_faturamento': ['PO', 'con', 'valor', 'nome', 'CNPJ'],#'desconto'],
+                'fatura_duplicata': ['con', 'vencimento', 'nome', 'PO', 'valor', 'descricao'],#'desconto','valorAPagar']
+                'custo_frete':['con','CNPJ','nome','valor']
                  }
 
 #AGV
@@ -29,7 +33,11 @@ dict_map['AGV']['mapa_faturamento'] = {'CNPJ': (1067, 1383, 1802, 1847),'con': (
 dict_map['AGV']['recibo_locacao'] = {'CNPJ': (230, 450, 430, 460),'con': (1949, 2105, 830, 889), 'nome': ( 1037, 1453, 2133, 2177),'PO':(261, 515, 1257, 1300) ,
                                       'valor': (1601,2057, 1580, 1630)}
 
-#dict_map['AGV']['fatura_duplicata'] = {}
+dict_map['AGV']['custo_frete'] = {'con':(333, 383, 255, 278) ,'CNPJ':(292, 475, 406, 431) ,'nome':(483, 785, 404, 431),'valor':(1465, 1595, 670, 695)}
+
+dict_map['AGV']['fatura_duplicata'] = {'con': (150, 230, 760, 780) ,'vencimento': (683, 787, 758, 780), 'nome': (560, 720, 500, 518), 
+                                    'valor': (760, 920, 410, 430), 'cnpj': (550, 716, 570, 595)}
+
 #dict_map['AGV']['nota_debito'] = {}
 
 #GKO
@@ -115,6 +123,27 @@ dict_map['DENISE']['NFS'] = {'CNPJ': (530, 850, 670, 720), 'con': (1880, 2100, 3
 #dict_map['DENISE']['fatura_duplicata'] = {}
 #dict_map['DENISE']['nota_debito'] = {}
 
+#LINE
+dict_map['LINE'] = {}
+dict_map['LINE']['NFS'] = {'CNPJ': (379, 535, 370, 393), 'con': (862, 927, 220, 240), 'vencimento': (10, 20, 10, 20),
+                          'nome': (237, 683,290, 309), 'PO': (91, 1132, 686, 1101), 'valor': (991, 1100, 1285, 1310), 'descricao': (91, 1132, 686, 1101)}
+dict_map['LINE']['fatura_duplicata'] = {'con': (254, 319, 251, 278) ,'vencimento': (930, 1041, 251, 277), 'nome': (295,790, 86, 112), 'PO': (207, 1170,318, 387) , 
+                                        'valor': (395, 505, 252,277), 'descricao': (207, 1170,318, 387), 'desconto':(559,636,250,278),'valorAPagar':(673,777,250,278)}
+dict_map['LINE']['custo_frete'] = {'con':(333, 383, 255, 278) ,'CNPJ':(292, 475, 406, 431) ,'nome':(483, 785, 404, 431),'valor':(1465, 1595, 670, 695)}
+#dict_map['LINE']['mapa_faturamento'] = {}
+#dict_map['LINE']['recibo_locacao'] = {}
+#dict_map['LINE']['nota_debito'] = {}
+
+#ANDREANI
+dict_map['ANDREANI'] = {}
+#dict_map['ANDREANI']['NFS'] = {}
+dict_map['ANDREANI']['fatura_duplicata'] = {'con': (175, 260, 170, 190) ,'vencimento': (57, 139, 175, 195), 'nome': (56, 282, 103, 125), 
+                                        'valor': (485, 645, 175, 199), 'cnpj': (373, 488, 365, 381)}
+dict_map['ANDREANI']['custo_frete'] = {'con':(333, 383, 255, 278) ,'CNPJ':(292, 475, 406, 431) ,'nome':(483, 785, 404, 431),'valor':(1465, 1595, 670, 695)}
+
+#dict_map['ANDREANI']['mapa_faturamento'] = {}
+#dict_map['ANDREANI']['recibo_locacao'] = {}
+#dict_map['ANDREANI']['nota_debito'] = {}
 
 companies = ['AGV LOGISTICA SA', 
             'RODOLOG TRANSPORTES MULTIMODAIS LTDA', 
@@ -124,5 +153,7 @@ companies = ['AGV LOGISTICA SA',
             'DENISE DOS ANJOS PINTO LUCENA',
             'GKO INFORMATICA LTDA',
             'MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA',
-            'RIO LOPES TRANSPORTES LTDA'
+            'RIO LOPES TRANSPORTES LTDA',
+            'LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA',
+            'ANDREANI LOGISTICA LTDA'
             ]

@@ -1,5 +1,6 @@
 
 #from m210 import fill_form
+from api_client import API_Client
 from dictionaries import docs_std_resolution, dict_document, dict_map
 import pytesseract
 import numpy as np
@@ -44,7 +45,7 @@ def nomeFornecedor(filename, full_name=False):
   img = cv2.imread(filename)
   config_tesseract = '--oem 3  --psm 11'
   texto = pytesseract.image_to_string(img, config=config_tesseract)
-  vetorResul = re.findall(r'AGV LOGISTICA SA|RIO LOPES TRANSPORTES LTDA|GKO INFORMATICA LTDA|MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP|Rodolog Transportes Multimodais Ltda|RUNTECH INFORMATICA LTDA|SHIFT GESTAO DE SERVICOS LTDA|DENISE DOS ANJOS PINTO LUCENA|DIREMADI MARKETING E SERVICOS LTDA', texto, flags=re.I)
+  vetorResul = re.findall(r'AGV LOGISTICA SA|RIO LOPES TRANSPORTES LTDA|GKO INFORMATICA LTDA|MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP|Rodolog Transportes Multimodais Ltda|RUNTECH INFORMATICA LTDA|SHIFT GESTAO DE SERVICOS LTDA|DENISE DOS ANJOS PINTO LUCENA|DIREMADI MARKETING E SERVICOS LTDA|LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA|ANDREANI LOGISTICA', texto, flags=re.I)
   result = vetorResul[0].split(" ")
   if full_name == False:
     company = result[0]
@@ -107,6 +108,8 @@ def compare(nota, planilha):
   #and nota['valor'] == str(df_xl.loc[i, 'VALOR FATURA'])
   temp = {}
   temp['AGV LOGISTICA SA'] = 'AGV LOGISTICA'
+  temp['DIREMADI MARKETING E SERVICOS LTDA'] = 'DIREMADI'
+  temp['ANDREANI LOGISTICA'] = 'ANDREANI LOGISTICA'
   temp['valor'] = ''
   valor = re.findall(r'[0-9]+|,[0-9][0-9]', nota['valor'])
   for e in valor:
@@ -129,26 +132,38 @@ def compare(nota, planilha):
       check = True
       break
 
-  if(check == False):
+  if(check == False and nota.get("PO") != None):
     #verifica PO
-    return False
-
+    if re.search(r'[0-9]+', nota.get("PO")) == None:
+      nota['Validacao'] = 'Nota Invalida'
+    else:
+      nota['Validacao'] = 'Nota Valida'
   else:
-    return nota
+    nota['Validacao'] = 'Nota Valida'
+  
+  return nota
 
 
 
 def run_ocr(filename, document, nome_planilha):
-  company = nomeFornecedor(filename)
-  dados = extract_data(filename, company, document)
-  dados['Validacao'] = ''
-  print(dados)
-  if compare(dados, nome_planilha) == False:
-    print('Nota Inválida')
-    return dados
-  else:
-    #returns dictionary
-    return dados
+  company = nomeFornecedor(filename, True)
+  #api_json = API_Client('https://wise.klink.ai/api/admin/find/fornecedor/tenant/merck').result
+  centroCusto = None
+  contaContabil = None
+  """ for c in api_json:
+    if c['razaoSocial'].upper() == company:
+      centroCusto = c['centroCusto']
+      contaContabil = c['contaContabil']
+      break """
+  dados = extract_data(filename, company.split()[0], document)
+  if(centroCusto != None):
+    dados['centro_custo'] = centroCusto
+
+  if(contaContabil != None):
+    dados['conta_contabil'] = contaContabil
+
+  #print(dados)
+  return compare(dados, nome_planilha)
 
 
 img_file = sys.argv[1]
@@ -156,12 +171,12 @@ img_file = sys.argv[1]
 tipo_documento = sys.argv[2]
 planilha = sys.argv[3]
 
-result = None
-try:
-  result = run_ocr(img_file, tipo_documento, planilha)
-  print(result)
-except:
-  print('Não foi possível extrair dados')
+#result = None
+
+result = run_ocr(img_file, tipo_documento, planilha)
+print(result)
+#except:
+#  print('Não foi possível extrair dados')
 
 """ try:
   out = result['nome']+result['con']+'.jpg'
@@ -176,6 +191,6 @@ def insert_data(filename, doctype, data: dict):
   with open('registros.txt', 'a') as f:
     #string = f'{filename}|'+'{"tipo_documento": '+f'"{doctype}", '+'"con": '+f'"{con}", '+'"valor": '+f'"{valor}"'+'}'
     string = json.dumps(data)
-    f.write(f'{filename}|{string}')
+    f.write(f'{filename}|{string}\n')
 
 insert_data(img_file, tipo_documento, result)
