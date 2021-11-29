@@ -9,7 +9,8 @@ docs_std_resolution = {
                         'DIREMADI': {'NFS': (2479, 3509)},
                         'DENISE': {'NFS': (2479, 3509)},
                         'LINE': {'NFS':(1240,1755), 'fatura_duplicata':(1240,1755),'custo_frete':(1753,1240)},
-                        'ANDREANI':{'fatura_duplicata':(1240,1755), 'custo_frete':(1753,1240)}
+                        'ANDREANI':{'fatura_duplicata':(1240,1755), 'custo_frete':(1753,1240)},
+                        'FL':{'fatura_duplicata':(1240,1753), 'custo_frete':(1753,1240)}
                        }
 
 dict_document = {
@@ -145,6 +146,16 @@ dict_map['ANDREANI']['custo_frete'] = {'con':(333, 383, 255, 278) ,'CNPJ':(292, 
 #dict_map['ANDREANI']['recibo_locacao'] = {}
 #dict_map['ANDREANI']['nota_debito'] = {}
 
+#FLBRASIL
+dict_map['FL'] = {}
+#dict_map['ANDREANI']['NFS'] = {}
+dict_map['FL']['fatura_duplicata'] = {'con': (553, 640, 148, 167) ,'vencimento': (653, 757, 148, 168), 'nome': (192, 395, 80, 189), 
+                                        'valor': (1038, 1212, 846,872), 'cnpj': (67, 190, 235, 255)}
+dict_map['FL']['custo_frete'] = {'con':(330,402, 254,276) ,'CNPJ':(333,476, 405,430) ,'nome':(483,725, 407,430),'valor':(1470,1624, 592,615)}
+#dict_map['FL']['mapa_faturamento'] = {}
+#dict_map['FL']['recibo_locacao'] = {}
+#dict_map['FL']['nota_debito'] = {}
+
 companies = ['AGV LOGISTICA SA', 
             'RODOLOG TRANSPORTES MULTIMODAIS LTDA', 
             'DIREMADI MARKETING E SERVICOS LTDA', 
@@ -155,5 +166,6 @@ companies = ['AGV LOGISTICA SA',
             'MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA',
             'RIO LOPES TRANSPORTES LTDA',
             'LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA',
-            'ANDREANI LOGISTICA LTDA'
+            'ANDREANI LOGISTICA LTDA',
+            'FL BRASIL HOLDING LOGISTICA E TRANSPORTE LTDA'
             ]
