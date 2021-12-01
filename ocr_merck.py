@@ -20,8 +20,11 @@ def isolate_field(image, x1, x2, y1, y2, coords: tuple):
   res_x = len(image[0])
   res_y = len(image)
 
-  fator_x = std_x//res_x
-  fator_y = std_y//res_y
+  fator_x = std_x/res_x + 0.5
+  fator_y = std_y/res_y + 0.5
+
+  fator_x = int(fator_x)
+  fator_y = int(fator_y)
 
   tlist = []
 
@@ -45,13 +48,17 @@ def nomeFornecedor(filename, full_name=False):
   img = cv2.imread(filename)
   config_tesseract = '--oem 3  --psm 11'
   texto = pytesseract.image_to_string(img, config=config_tesseract)
-  vetorResul = re.findall(r'AGV LOGISTICA SA|RIO LOPES TRANSPORTES LTDA|GKO INFORMATICA LTDA|MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP|Rodolog Transportes Multimodais Ltda|RUNTECH INFORMATICA LTDA|SHIFT GESTAO DE SERVICOS LTDA|DENISE DOS ANJOS PINTO LUCENA|DIREMADI MARKETING E SERVICOS LTDA|LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA|ANDREANI LOGISTICA', texto, flags=re.I)
+  print(texto)
+  
+  vetorResul = re.findall(r'AGV LOGISTICA SA|RIO LOPES TRANSPORTES LTDA|GKO INFORMATICA LTDA|MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP|Rodolog Transportes Multimodais Ltda|RUNTEC INFORMATICA LTDA|SHIFT GESTAO DE SERVICOS LTDA|DENISE DOS ANJOS PINTO LUCENA|DIREMADI MARKETING E SERVICOS LTDA|LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA|LINE EXPRESS|ANDREANI LOGISTICA|FL BRASIL HOLDING LOGISTICA E TRANSPORTE', texto, flags=re.I)
+  print(vetorResul)
   result = vetorResul[0].split(" ")
+
   if full_name == False:
     company = result[0]
   else:
     company = vetorResul[0]
-  return company
+  return company.upper()
 
 
 
@@ -76,12 +83,14 @@ def getField(filename, company, field, document, params=None):
 
   if field == 'PO':
     if document == 'mapa_faturamento':
-      po = re.search(r'PO:? [0-9]+', texto)
+      po = re.search(r'(?:PO|Pedido):? [0-9]+', texto)
       if po != None:
+        po = re.search(r'[0-9]+', po.group())
         texto = po.group()
     elif document == 'NFS':
       po = re.search(r'(?:PO|Pedido):? [0-9]+', texto)
       if po != None:
+        po = re.search(r'[0-9]+', po.group())
         texto = po.group()
   return texto
 
@@ -97,6 +106,12 @@ def extract_data(filename, company, document):
       if s != None:
         info[field] = s.group().strip()
 
+    #PO - NUMERIC    
+    if field == 'PO':
+      s = re.search(r'[0-9]+', info[field])
+      if s == None:
+        info[field] = ''
+
   return info
 
 
@@ -110,13 +125,24 @@ def compare(nota, planilha):
   temp['AGV LOGISTICA SA'] = 'AGV LOGISTICA'
   temp['DIREMADI MARKETING E SERVICOS LTDA'] = 'DIREMADI'
   temp['ANDREANI LOGISTICA'] = 'ANDREANI LOGISTICA'
+  temp['RIO LOPES TRANSPORTES LTDA'] = 'RIO LOPES TRANSPORTES LTDA'
+  temp['GKO INFORMATICA LTDA'] = 'GKO INFORMATICA LTDA'
+  temp['MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP'] = 'MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP'
+  temp['Rodolog Transportes Multimodais Ltda'] = 'Rodolog Transportes Multimodais Ltda'
+  temp['RUNTECH INFORMATICA LTDA'] = 'RUNTECH INFORMATICA LTDA'
+  temp['SHIFT GESTAO DE SERVICOS LTDA'] = 'SHIFT GESTAO DE SERVICOS LTDA'
+  temp['LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA'] = 'LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA'
+  temp['DENISE DOS ANJOS PINTO LUCENA'] = 'DENISE DOS ANJOS PINTO LUCENA'
+  
   temp['valor'] = ''
   valor = re.findall(r'[0-9]+|,[0-9][0-9]', nota['valor'])
   for e in valor:
     if e != ',00':
       temp['valor'] += e
   print(temp['valor'])
-  temp['con'] = re.search(r'[1-9][0-9]*', nota['con']).group()
+  temp['con'] = re.search(r'[1-9][0-9]*', nota['con'])
+  if temp['con'] != None:
+    temp['con'] = temp['con'].group()
 
   print(temp['con'])
   for i in range(len(df_xl)):
@@ -127,7 +153,7 @@ def compare(nota, planilha):
         print(str(df_xl.loc[i, 'TRANSPORTADORA']),str(df_xl.loc[i, 'VALOR FATURA']),str(df_xl.loc[i, 'NOTA FISCAL']))
         print() """
 
-    if temp[nota['nome']] == str(df_xl.loc[i, 'TRANSPORTADORA']) and eval(temp['valor']) == df_xl.loc[i, 'VALOR FATURA'] and temp['con'] == str(df_xl.loc[i, 'NOTA FISCAL']):
+    if str(temp.get(nota.get('nome'))) == str(df_xl.loc[i, 'TRANSPORTADORA']) and str(eval(temp['valor'])) == str(df_xl.loc[i, 'VALOR FATURA']) and str(temp['con']) == str(df_xl.loc[i, 'NOTA FISCAL']):
       
       check = True
       break
@@ -151,16 +177,22 @@ def run_ocr(filename, document, nome_planilha):
   centroCusto = None
   contaContabil = None
   """ for c in api_json:
-    if c['razaoSocial'].upper() == company:
+    if c['razaoSocial'].upper() == company.upper():
       centroCusto = c['centroCusto']
       contaContabil = c['contaContabil']
-      break """
+      break"""
+
   dados = extract_data(filename, company.split()[0], document)
   if(centroCusto != None):
     dados['centro_custo'] = centroCusto
 
   if(contaContabil != None):
     dados['conta_contabil'] = contaContabil
+
+  if dados.get('desconto') != None:
+    dados['valorBruto'] = dados['valor'] - dados['desconto']
+  else:
+    dados['valorBruto'] = dados['valor']
 
   #print(dados)
   return compare(dados, nome_planilha)

@@ -6,7 +6,7 @@ docs_std_resolution = {
                         'RODOLOG': {'NFS': (2483,3512), 'fatura_duplicata': (2480, 3509)},
                         'RUNTEC': {'NFS': (2480, 3525)},
                         'SHIFT': {'NFS': (2480, 3509), 'nota_debito': (2481, 3509)},
-                        'DIREMADI': {'NFS': (2479, 3509)},
+                        'DIREMADI': {'NFS': (2480, 3509)},
                         'DENISE': {'NFS': (2479, 3509)},
                         'LINE': {'NFS':(1240,1755), 'fatura_duplicata':(1240,1755),'custo_frete':(1753,1240)},
                         'ANDREANI':{'fatura_duplicata':(1240,1755), 'custo_frete':(1753,1240)},
@@ -28,10 +28,10 @@ dict_map['AGV'] = {}
 dict_map['AGV']['NFS'] = {'CNPJ': (440, 760, 580, 630), 'con': (1910, 2164, 270, 320), 'vencimento': (470, 700, 1240, 1274),
                           'nome': (550, 930, 640, 690), 'PO': (310, 540, 1280, 1325), 'valor': (1300, 1575, 2144, 2188), 'descricao': (245, 2175, 1200, 1235)}
 
-dict_map['AGV']['mapa_faturamento'] = {'CNPJ': (1067, 1383, 1802, 1847),'con': (432, 658, 320, 360), 'nome': (11037, 1412, 1752, 1793),'PO':(440, 2330, 860, 1080) ,
-                                      'valor': (1953,2329, 1460, 1505)}
+dict_map['AGV']['mapa_faturamento'] = {'CNPJ': (1050, 1400, 1790, 1845),'con': (432, 658, 320, 360), 'nome': (1037, 1412, 1752, 1793),'PO':(440, 2330, 860, 1080) ,
+                                      'valor': (1933,2327, 1453, 1505)}
 
-dict_map['AGV']['recibo_locacao'] = {'CNPJ': (230, 450, 430, 460),'con': (1949, 2105, 830, 889), 'nome': ( 1037, 1453, 2133, 2177),'PO':(261, 515, 1257, 1300) ,
+dict_map['AGV']['recibo_locacao'] = {'CNPJ': (230, 450, 430, 460),'con': (1949, 2105, 830, 889), 'nome': ( 1037, 1453, 2133, 2177),'PO':(255, 537, 1225, 1300) ,
                                       'valor': (1601,2057, 1580, 1630)}
 
 dict_map['AGV']['custo_frete'] = {'con':(333, 383, 255, 278) ,'CNPJ':(292, 475, 406, 431) ,'nome':(483, 785, 404, 431),'valor':(1465, 1595, 670, 695)}
@@ -106,8 +106,8 @@ dict_map['RODOLOG']['fatura_duplicata'] = {'con': (225, 365, 2005, 2050) ,'venci
 
 #DIREMADI
 dict_map['DIREMADI'] = {}
-dict_map['DIREMADI']['NFS'] = {'CNPJ': (796, 1078, 670, 710), 'con': (1880, 2100, 385, 431), 'vencimento': (1149, 1351, 735, 780),
-                          'nome': (910, 1539, 720, 760), 'PO': (485, 683, 1265, 1305), 'valor': (1324, 1620, 2082, 2120), 'descricao': (368, 2150, 1234, 1266)}
+dict_map['DIREMADI']['NFS'] = {'CNPJ': (720, 1025, 579, 620), 'con': (1915, 2165, 265, 310), 'vencimento': (10, 20, 10, 20),
+                          'nome': (853, 1549, 635, 681), 'PO': (374, 599, 1237, 1273), 'valor': (1311, 1570, 2140, 2188), 'descricao': (245, 2000, 1196, 1500)}
 
 #dict_map['DIREMADI']['mapa_faturamento'] = {}
 #dict_map['DIREMADI']['recibo_locacao'] = {}
@@ -116,8 +116,8 @@ dict_map['DIREMADI']['NFS'] = {'CNPJ': (796, 1078, 670, 710), 'con': (1880, 2100
 
 #DENISE
 dict_map['DENISE'] = {}
-dict_map['DENISE']['NFS'] = {'CNPJ': (530, 850, 670, 720), 'con': (1880, 2100, 385, 431), 'vencimento': (10, 20, 10, 20),
-                          'nome': (660, 1230, 1220, 1240), 'PO': (370, 2156, 1185, 2150), 'valor': (1324, 1620, 2082, 2126), 'descricao': (370, 2156, 1185, 2150)}
+dict_map['DENISE']['NFS'] = {'CNPJ': (432, 800, 560, 640), 'con': (1903, 2200, 261, 311), 'vencimento': (10, 20, 10, 20),
+                          'nome': (575, 1183, 635, 678), 'PO': (317, 583, 1311, 1359), 'valor': (1327, 1565, 2140, 2185), 'descricao': (245, 2229, 1194, 2079)}
 
 #dict_map['DENISE']['mapa_faturamento'] = {}
 #dict_map['DENISE']['recibo_locacao'] = {}
