@@ -1,0 +1,11 @@
+
+Mapa de Faturamento (893,1492,118,155)
+Recibo de locação (941,1505,984,1032)
+Nota Fiscal de Serviço  Eletronica (647,1673,382,430)
+NFS-e Nota fiscal de servico eletronica (643, 1861, 139,203)
+Fatura/Duplicata (209,366,228,248)
+Nota Fiscal Eletronica de Servicos e Fatura - NFE (104,182,168,185)
+NOTA FISCAL DE SERVICO ELETRONICA - NFS-e (275,865,105,131)
+Custo de Frete (763,984,153,178)
+Fatura duplicata (1020,1464,163,214)
+Nota de Debito (981,1559,671,741)
