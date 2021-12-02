@@ -1,7 +1,7 @@
 
 #from m210 import fill_form
 from api_client import API_Client
-from dictionaries import docs_std_resolution, dict_document, dict_map
+from dictionaries import docs_std_resolution, dict_document, dict_map, docTypeMap
 import pytesseract
 import numpy as np
 import cv2 # OpenCV
@@ -11,6 +11,23 @@ import json
 import sys
 
 pytesseract.pytesseract.tesseract_cmd = "C:\Program Files\Tesseract-OCR\Tesseract.exe"
+
+def getDocumentType(filename):
+  img = cv2.imread(filename)
+  config_tesseract = '--oem 3  --psm 11'
+  texto = pytesseract.image_to_string(img, config=config_tesseract)
+  print(texto)
+  texto = texto.lower()
+  
+  vetorResultado = re.findall(r'mapa de faturamento|recibo de locação|recibo de locacao|nota fiscal de serviço|nota fiscal|\
+  nfs-e|nfs|fatura duplicata|nota fiscal eletronica de servicos e fatura|custo de frete|fatura duplicata|nota de debito|nota de débito', texto, flags=re.I)
+  #print(vetorResultado)
+  if len(vetorResultado) > 0:
+    result = vetorResultado[0]
+  else:
+    result = ''
+  
+  return result
 
 
 def isolate_field(image, x1, x2, y1, y2, coords: tuple):
@@ -50,8 +67,8 @@ def nomeFornecedor(filename, full_name=False):
   texto = pytesseract.image_to_string(img, config=config_tesseract)
   print(texto)
   
-  vetorResul = re.findall(r'AGV LOGISTICA SA|RIO LOPES TRANSPORTES LTDA|GKO INFORMATICA LTDA|MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP|Rodolog Transportes Multimodais Ltda|RUNTEC INFORMATICA LTDA|SHIFT GESTAO DE SERVICOS LTDA|DENISE DOS ANJOS PINTO LUCENA|DIREMADI MARKETING E SERVICOS LTDA|LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA|LINE EXPRESS|ANDREANI LOGISTICA|FL BRASIL HOLDING LOGISTICA E TRANSPORTE', texto, flags=re.I)
-  print(vetorResul)
+  vetorResul = re.findall(r'AGV LOGISTICA SA|RIO LOPES TRANSPORTES LTDA|GKO INFORMATICA LTDA|MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA - EPP|Rodolog Transportes Multimodais Ltda|RUNTEC|SHIFT GESTAO DE SERVICOS LTDA|DENISE DOS ANJOS PINTO LUCENA|DIREMADI MARKETING E SERVICOS LTDA|LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA|LINE EXPRESS|ANDREANI LOGISTICA|FL BRASIL HOLDING LOGISTICA E TRANSPORTE', texto, flags=re.I)
+  #print(vetorResul)
   result = vetorResul[0].split(" ")
 
   if full_name == False:
@@ -108,7 +125,7 @@ def extract_data(filename, company, document):
 
     #PO - NUMERIC    
     if field == 'PO':
-      s = re.search(r'[0-9]+', info[field])
+      s = re.match(r'[0-9]+', info[field])
       if s == None:
         info[field] = ''
 
@@ -139,12 +156,12 @@ def compare(nota, planilha):
   for e in valor:
     if e != ',00':
       temp['valor'] += e
-  print(temp['valor'])
+  #print(temp['valor'])
   temp['con'] = re.search(r'[1-9][0-9]*', nota['con'])
   if temp['con'] != None:
     temp['con'] = temp['con'].group()
 
-  print(temp['con'])
+  #print(temp['con'])
   for i in range(len(df_xl)):
     #and nota['valor'] == str(df_xl.loc[i, 'VALOR FATURA']
 
@@ -180,8 +197,7 @@ def run_ocr(filename, document, nome_planilha):
     if c['razaoSocial'].upper() == company.upper():
       centroCusto = c['centroCusto']
       contaContabil = c['contaContabil']
-      break"""
-
+      break """
   dados = extract_data(filename, company.split()[0], document)
   if(centroCusto != None):
     dados['centro_custo'] = centroCusto
@@ -194,18 +210,24 @@ def run_ocr(filename, document, nome_planilha):
   else:
     dados['valorBruto'] = dados['valor']
 
+  if(dados.get('descricao') != None):
+    dados['descricao'] = re.sub('\n', ' ', dados['descricao'])
   #print(dados)
   return compare(dados, nome_planilha)
 
 
 img_file = sys.argv[1]
 #empresa = sys.argv[2]
-tipo_documento = sys.argv[2]
-planilha = sys.argv[3]
+#docType = sys.argv[2]
+docType = str(getDocumentType(img_file))
+docType = docTypeMap[docType.lower()]
+
+planilha = sys.argv[2]
 
 #result = None
 
-result = run_ocr(img_file, tipo_documento, planilha)
+result = run_ocr(img_file, docType, planilha)
+
 print(result)
 #except:
 #  print('Não foi possível extrair dados')
@@ -225,4 +247,4 @@ def insert_data(filename, doctype, data: dict):
     string = json.dumps(data)
     f.write(f'{filename}|{string}\n')
 
-insert_data(img_file, tipo_documento, result)
+insert_data(img_file, docType, result)

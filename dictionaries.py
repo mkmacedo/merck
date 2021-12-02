@@ -22,6 +22,21 @@ dict_document = {
                 'custo_frete':['con','CNPJ','nome','valor']
                  }
 
+docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
+                'mapa faturamento': 'mapa_faturamento',
+                'recibo locação': 'recibo_locacao',
+                'recibo de locação': 'recibo_locacao',
+                'recibo de locacao': 'recibo_locacao',
+                'nota fiscal de serviço': 'NFS',
+                'nfs-e': 'NFS',
+                'nfs': 'NFS',
+                'fatura duplicata': 'fatura_duplicata',
+                'nota fiscal': 'NFS',
+                'custo de frete': 'custo_frete',
+                'nota de debito': 'nota_debito',
+                'nota de débito': 'nota_debito',
+                }
+
 #AGV
 dict_map = {}
 dict_map['AGV'] = {}
