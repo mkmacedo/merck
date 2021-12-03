@@ -10,7 +10,7 @@ docs_std_resolution = {
                         'DENISE': {'NFS': (2479, 3509)},
                         'LINE': {'NFS':(1240,1755), 'fatura_duplicata':(1240,1755),'custo_frete':(1753,1240)},
                         'ANDREANI':{'fatura_duplicata':(1240,1755), 'custo_frete':(1753,1240)},
-                        'FL':{'fatura_duplicata':(1240,1753), 'custo_frete':(1753,1240)}
+                        'FL':{'DACTE':(1240,1753), 'custo_frete':(1753,1240),'fatura_frete':(1241,1755)}
                        }
 
 dict_document = {
@@ -19,8 +19,9 @@ dict_document = {
                 'nota_debito': ['con', 'vencimento', 'nome', 'PO', 'valor'], #'descricao','desconto'],
                 'mapa_faturamento': ['PO', 'con', 'valor', 'nome', 'CNPJ'],#'desconto'],
                 'fatura_duplicata': ['con', 'vencimento', 'nome', 'PO', 'valor', 'descricao'],#'desconto','valorAPagar']
-                'custo_frete':['con','CNPJ','valor'], #'nome'
-                'DACTE':['con','CNPJ','nome','valor','vencimento']
+                'custo_frete':['con','CNPJ','nome','valor'],
+                'DACTE':['con','CNPJ','nome','valor','vencimento'],
+                'fatura_frete':['CNPJ','vencimento','valor']
                  }
 
 docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
@@ -167,9 +168,13 @@ dict_map['FL'] = {}
 #dict_map['ANDREANI']['NFS'] = {}
 dict_map['FL']['fatura_duplicata'] = {'con': (553, 640, 148, 167) ,'vencimento': (653, 757, 148, 168), 'nome': (192, 395, 80, 189), 
                                         'valor': (1038, 1212, 846,872), 'cnpj': (67, 190, 235, 255)}
+                                        
 dict_map['FL']['custo_frete'] = {'con':(330,402, 254,276) ,'CNPJ':(333,476, 405,430) ,'nome':(483,725, 407,430),'valor':(1470,1624, 592,615)}
+
 dict_map['FL']['DACTE'] = {'con': (553, 640, 148, 167) ,'vencimento': (653, 757, 148, 168), 'nome': (192, 395, 80, 189), 
                                         'valor': (1038, 1212, 846,872), 'cnpj': (67, 190, 235, 255)}
+
+dict_map['FL']['fatura_frete'] = {'CNPJ':(322,440,102,113), 'vencimento':(819,905,128,142),'valor':(1057,1133,268,282)} 
 #dict_map['FL']['mapa_faturamento'] = {}
 #dict_map['FL']['recibo_locacao'] = {}
 #dict_map['FL']['nota_debito'] = {}
