@@ -19,7 +19,8 @@ dict_document = {
                 'nota_debito': ['con', 'vencimento', 'nome', 'PO', 'valor'], #'descricao','desconto'],
                 'mapa_faturamento': ['PO', 'con', 'valor', 'nome', 'CNPJ'],#'desconto'],
                 'fatura_duplicata': ['con', 'vencimento', 'nome', 'PO', 'valor', 'descricao'],#'desconto','valorAPagar']
-                'custo_frete':['con','CNPJ','nome','valor']
+                'custo_frete':['con','CNPJ','valor'], #'nome'
+                'DACTE':['con','CNPJ','nome','valor','vencimento']
                  }
 
 docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
@@ -167,6 +168,8 @@ dict_map['FL'] = {}
 dict_map['FL']['fatura_duplicata'] = {'con': (553, 640, 148, 167) ,'vencimento': (653, 757, 148, 168), 'nome': (192, 395, 80, 189), 
                                         'valor': (1038, 1212, 846,872), 'cnpj': (67, 190, 235, 255)}
 dict_map['FL']['custo_frete'] = {'con':(330,402, 254,276) ,'CNPJ':(333,476, 405,430) ,'nome':(483,725, 407,430),'valor':(1470,1624, 592,615)}
+dict_map['FL']['DACTE'] = {'con': (553, 640, 148, 167) ,'vencimento': (653, 757, 148, 168), 'nome': (192, 395, 80, 189), 
+                                        'valor': (1038, 1212, 846,872), 'cnpj': (67, 190, 235, 255)}
 #dict_map['FL']['mapa_faturamento'] = {}
 #dict_map['FL']['recibo_locacao'] = {}
 #dict_map['FL']['nota_debito'] = {}
