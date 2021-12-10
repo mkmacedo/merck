@@ -24,7 +24,7 @@ def getDocumentType(filename):
   texto = texto.lower()
   
   vetorResultado = re.findall(r'fatura.?duplicata|mapa [de]? faturamento|recibo de locação|recibo de locacao|nota fiscal de serviço|nota fiscal|\
-  nfs-e|nfs|fatura duplicata|nota fiscal eletronica de servicos e fatura|custo de frete|custo de frete|nota de debito|nota de débito|dacte|conferencia de faturas', texto, flags=re.I)
+  nfs-e|nfs|fatura duplicata|nota fiscal eletronica de servicos e fatura|custo de frete|custo de frete|nota de debito|nota de débito|dacte|conferencia de faturas|detalhamento dos itens da nota fiscal', texto, flags=re.I)
   #print(vetorResultado)
 
   standardized_docs_list = []

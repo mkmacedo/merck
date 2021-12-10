@@ -20,12 +20,14 @@ docs_std_resolution = {
 dict_document = {
                 'NFS': ['CNPJ', 'con', 'vencimento', 'nome', 'PO', 'valor', 'descricao','pesobruto'], #'desconto'],
                 'recibo_locacao': ['con', 'nome', 'PO', 'valor'],# 'contaContabil', 'centroCusto','desconto'],
-                'nota_debito': ['con', 'vencimento', 'nome', 'PO', 'valor','descricao'], #'descricao','desconto'],
+                'nota_debito': ['con', 'vencimento', 'nome', 'PO', 'valor','descricao','pesobruto'], #'descricao','desconto'],
                 'mapa_faturamento': ['PO', 'con', 'valor', 'nome', 'CNPJ'],#'desconto'],
                 'fatura_duplicata': ['con', 'vencimento', 'nome', 'PO', 'valor', 'descricao'],#'desconto','valorAPagar']
                 'custo_frete':['nome', 'con','CNPJ','valor'], 
                 'DACTE':['con','CNPJ','nome','valor','vencimento'],
-                'fatura_frete':['CNPJ','vencimento','valor']
+                'fatura_frete':['CNPJ','vencimento','valor'],
+                'detalhamento_notafiscal':['valorImposto','valorSem','CIF','taxa','descricao','nome','moeda','periodo','tipoServico'],
+                'minuta_calculo':['valorCIF','valor']
                  }
 
 docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
@@ -48,10 +50,13 @@ docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
                 'nota débito': 'nota_debito',
                 'nota debito': 'nota_debito',
                 'dacte': 'DACTE',
-                'conferencia de faturas': 'fatura_frete'
+                'conferencia de faturas': 'fatura_frete',
+                'detalhamento dos itens da nota fiscal': 'detalhamento_notafiscal'
                 }
 
 docHierarchy = {
+                'minuta_calculo': 10,
+                'detalhamento_notafiscal':9,
                 'fatura_frete': 8,
                 'nota_debito': 7,
                 'fatura_duplicata': 6,
@@ -217,26 +222,27 @@ dict_map['MULTIRIO']['NFS'] = {'CNPJ': (213,365,295,313), 'con': (939,1050,157,1
 
 #ICTSI
 dict_map['ICTSI'] = {}
-dict_map['ICTSI']['NFS'] = {'CNPJ': (359,510,313,293), 'con': (957,1078,157,135), 'vencimento': (918,1029,202,181),
-                          'nome': (425,700,338,320), 'PO': (122,1111,1231,1063), 'valor': (650,785,1092,1071), 'descricao': (122,1111,1231,1063)}
-
+dict_map['ICTSI']['NFS'] = {'CNPJ': (359,510,313,293), 'con': (957,1082,158,135), 'vencimento': (918,1030,202,181),
+                          'nome': (425,700,338,320), 'PO': (122,1111,1231,1063), 'valor': (650,785,1092,1071), 'descricao': (122,1111,1063,600)}
 #dict_map['ICTSI']['fatura_duplicata'] = {}
 #dict_map['ICTSI']['custo_frete'] = {}
 #dict_map['ICTSI']['mapa_faturamento'] = {}
 #dict_map['ICTSI']['recibo_locacao'] = {}
 #dict_map['ICTSI']['nota_debito'] = {}
+dict_map['ICTSI']['detalhamento_notafiscal'] = {'CIF':(480,628,655,636),'taxa':(990,650,655,635),'descricao':(62,1195,1395,100),'tipoServico':(60,1170,1725,1525),
+                                                'nome':(150,265,99,45),'moeda':(995,1105,689,670),'periodo':(62,145,919,898),'valorImposto':(975,1090,916,900),'valorSem':(490,635,916,900)}
 
 #DHL
 dict_map['DHL'] = {}
 dict_map['DHL']['NFS'] = {'CNPJ': (361,571,267,249), 'con': (970,1042,54,73), 'vencimento': (960,1058,168,152),
-                          'nome': (445,795,298,266),'valor': (), 'descricao': (23,1209,1219,593)}
+                          'nome': (445,795,298,266),'valor': (355,465,1345,1330), 'descricao': (23,1209,1219,593)}
 
 #dict_map['DHL']['fatura_duplicata'] = {}
 #dict_map['DHL']['custo_frete'] = {}
 #dict_map['DHL']['mapa_faturamento'] = {}
 #dict_map['DHL']['recibo_locacao'] = {}
-dict_map['DHL']['nota_debito'] = {'con': (1089,1154,37,21), 'vencimento': (867,946,189,171),
-                          'nome': (267,600,44,77), 'valor': (969,1200,1445,1423),'descricao':(22,1201,1153,533)}
+dict_map['DHL']['nota_debito'] = {'con': (1089,1155,40,21), 'vencimento': (865,945,190,171),
+                          'nome': (267,600,45,77), 'valor': (969,1200,1445,1423),'descricao':(22,1201,1153,533)}
 
 companies = ['AGV LOGISTICA SA', 
             'RODOLOG TRANSPORTES MULTIMODAIS LTDA', 
