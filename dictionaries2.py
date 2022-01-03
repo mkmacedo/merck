@@ -255,7 +255,7 @@ dict_map['MULTITERMINAIS'] = {}
 #dict_map['MULTITERMINAIS']['mapa_faturamento'] = {}
 #dict_map['MULTITERMINAIS']['recibo_locacao'] = {}
 #dict_map['MULTITERMINAIS']['nota_debito'] = {}
-dict_map['MULTITERMINAIS']['minuta_calculo'] = {'nome':(160,310,125,160),'valorCIF':(925,1095,402,425),'valor':(),'CNTR':(405,425,515,535),'descricao':(160,530,735,850)}
+dict_map['MULTITERMINAIS']['minuta_calculo'] = {'nome':(160,310,125,160),'valorCIF':(925,1095,402,425),'valor':(965,1091,1000,969),'CNTR':(405,425,515,535),'descricao':(160,530,735,850)}
 
 companies = ['AGV LOGISTICA SA', 
             'RODOLOG TRANSPORTES MULTIMODAIS LTDA', 
