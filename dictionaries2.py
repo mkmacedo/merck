@@ -14,8 +14,7 @@ docs_std_resolution = {
                         None:{'fatura_frete': (1241,1755)},
                         'MULTIRIO':{'NFS':(1240,1755)},
                         'ICTSI':{'NFS':(1240,1755)},
-                        'DHL' :{'nota_debito':(1240,1755),'NFS':(1240,1755)},
-                        'MULTITERMINAIS':{'minuta_calculo':(1275,1650)}
+                        'DHL' :{'nota_debito':(1240,1755),'NFS':(1240,1755)}
                        }
 
 dict_document = {
@@ -27,8 +26,8 @@ dict_document = {
                 'custo_frete':['nome', 'con','CNPJ','valor'], 
                 'DACTE':['con','CNPJ','nome','valor','vencimento'],
                 'fatura_frete':['CNPJ','vencimento','valor'],
-                'detalhamento_notafiscal':['valorImposto','valorSem','CIF','taxa','descricao','nome','moeda','periodo','tipoServico'],
-                'minuta_calculo':['nome','valorCIF','valor','CNTR','descricao']
+                'detalhamento_notafiscal':['valorImposto','valorSem','CIF','taxa','descricao','nome','moeda','periodo','tipoServico','DI'],
+                'minuta_calculo':['valorCIF','valor']
                  }
 
 docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
@@ -52,9 +51,7 @@ docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
                 'nota debito': 'nota_debito',
                 'dacte': 'DACTE',
                 'conferencia de faturas': 'fatura_frete',
-                'detalhamento dos itens da nota fiscal': 'detalhamento_notafiscal',
-                'minuta de calculo':'minuta_calculo',
-                'Minuta de Cáculo':'minuta_calculo'
+                'detalhamento dos itens da nota fiscal': 'detalhamento_notafiscal'
                 }
 
 docHierarchy = {
@@ -232,7 +229,7 @@ dict_map['ICTSI']['NFS'] = {'CNPJ': (359,510,293,313), 'con': (957,1082,135,158)
 #dict_map['ICTSI']['mapa_faturamento'] = {}
 #dict_map['ICTSI']['recibo_locacao'] = {}
 #dict_map['ICTSI']['nota_debito'] = {}
-dict_map['ICTSI']['detalhamento_notafiscal'] = {'CIF':(480,628,636,655),'taxa':(990,650,635,655),'descricao':(62,1195,100,1395),'tipoServico':(60,1170,1525,1725),
+dict_map['ICTSI']['detalhamento_notafiscal'] = {'CIF':(480,628,636,655),'taxa':(990,650,635,655),'descricao':(62,1195,100,1395),'tipoServico':(60,1170,1525,1725),'DI':(170,300,635,655),
                                                 'nome':(150,265,45,99),'moeda':(995,1105,670,689),'periodo':(62,145,898,919),'valorImposto':(975,1090,900,916),'valorSem':(490,635,900,916)}
 
 #DHL
@@ -246,16 +243,6 @@ dict_map['DHL']['NFS'] = {'CNPJ': (361,571,249,267), 'con': (970,1042,54,73), 'v
 #dict_map['DHL']['recibo_locacao'] = {}
 dict_map['DHL']['nota_debito'] = {'con': (1089,1155, 21, 40), 'vencimento': (865,945,171,190),
                           'nome': (267,600,45,77), 'valor': (969,1200,1423,1445),'descricao':(22,1201,533,1153)}
-
-#MULTITERMINAIS
-dict_map['MULTITERMINAIS'] = {}
-#dict_map['MULTITERMINAIS']['NFS'] = {}
-#dict_map['MULTITERMINAIS']['fatura_duplicata'] = {}
-#dict_map['MULTITERMINAIS']['custo_frete'] = {}
-#dict_map['MULTITERMINAIS']['mapa_faturamento'] = {}
-#dict_map['MULTITERMINAIS']['recibo_locacao'] = {}
-#dict_map['MULTITERMINAIS']['nota_debito'] = {}
-dict_map['MULTITERMINAIS']['minuta_calculo'] = {'nome':(160,310,125,160),'valorCIF':(925,1095,402,425),'valor':(965,1091,1000,969),'CNTR':(405,425,515,535),'descricao':(160,530,735,850)}
 
 companies = ['AGV LOGISTICA SA', 
             'RODOLOG TRANSPORTES MULTIMODAIS LTDA', 
@@ -271,6 +258,5 @@ companies = ['AGV LOGISTICA SA',
             'FL BRASIL HOLDING LOGISTICA E TRANSPORTE LTDA',
             'MULTI RIO OPERACOES PORTUARIAS S/A',
             'ICTSI RIO BRASIL TERMINAL 1 SA',
-            'DHL GLOBAL FORWARDING (BRAZIL) LOGISTICS LTDA',
-            'MULTITERMINAIS LOGISTICA INTEGRADA'
+            'DHL GLOBAL FORWARDING (BRAZIL) LOGISTICS LTDA'
             ]

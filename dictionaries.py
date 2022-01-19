@@ -14,20 +14,21 @@ docs_std_resolution = {
                         None:{'fatura_frete': (1241,1755)},
                         'MULTIRIO':{'NFS':(1240,1755)},
                         'ICTSI':{'NFS':(1240,1755)},
-                        'DHL' :{'nota_debito':(1240,1755),'NFS':(1240,1755)}
+                        'DHL':{'nota_debito':(1240,1755),'NFS':(1240,1755)},
+                        'MULTITERMINAIS':{'minuta_calculo':(1275,1650)}
                        }
 
 dict_document = {
-                'NFS': ['CNPJ', 'con', 'vencimento', 'nome', 'PO', 'valor', 'descricao','pesobruto'], #'desconto'],
+                'NFS': ['CNPJ', 'con', 'vencimento', 'nome', 'PO', 'valor', 'descricao','pesoBruto'], #'desconto'],
                 'recibo_locacao': ['con', 'nome', 'PO', 'valor'],# 'contaContabil', 'centroCusto','desconto'],
-                'nota_debito': ['con', 'vencimento', 'nome', 'PO', 'valor','descricao','pesobruto'], #'descricao','desconto'],
+                'nota_debito': ['con', 'vencimento', 'nome', 'PO', 'valor','descricao','pesoBruto'], #'descricao','desconto'],
                 'mapa_faturamento': ['PO', 'con', 'valor', 'nome', 'CNPJ'],#'desconto'],
                 'fatura_duplicata': ['con', 'vencimento', 'nome', 'PO', 'valor', 'descricao'],#'desconto','valorAPagar']
                 'custo_frete':['nome', 'con','CNPJ','valor'], 
                 'DACTE':['con','CNPJ','nome','valor','vencimento'],
                 'fatura_frete':['CNPJ','vencimento','valor'],
-                'detalhamento_notafiscal':['valorImposto','valorSem','CIF','taxa','descricao','nome','moeda','periodo','tipoServico'],
-                'minuta_calculo':['valorCIF','valor']
+                'detalhamento_notafiscal':['valorImposto','valorSem','CIF','taxa','descricao','nome','moeda','periodo','tipoServico','DI'],
+                'minuta_calculo':['nome','valorCIF','valor','CNTR','descricao']
                  }
 
 docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
@@ -51,12 +52,15 @@ docTypeMap = {'mapa de faturamento': 'mapa_faturamento',
                 'nota debito': 'nota_debito',
                 'dacte': 'DACTE',
                 'conferencia de faturas': 'fatura_frete',
-                'detalhamento dos itens da nota fiscal': 'detalhamento_notafiscal'
+                'detalhamento dos itens da nota fiscal': 'detalhamento_notafiscal',
+                'minuta de calculo':'minuta_calculo',
+                'minuta calculo':'minuta_calculo',
+                'Minuta de Cáculo':'minuta_calculo'
                 }
 
 docHierarchy = {
                 'minuta_calculo': 10,
-                'detalhamento_notafiscal':9,
+                'detalhamento_notafiscal': 9,
                 'fatura_frete': 8,
                 'nota_debito': 7,
                 'fatura_duplicata': 6,
@@ -72,8 +76,8 @@ dict_map['AGV'] = {}
 dict_map['AGV']['NFS'] = {'CNPJ': (440, 760, 580, 630), 'con': (1910, 2164, 270, 320), 'vencimento': (470, 700, 1240, 1274),
                           'nome': (550, 930, 640, 690), 'PO': (310, 540, 1280, 1325), 'valor': (1300, 1575, 2144, 2188), 'descricao': (245, 2175, 1200, 1235)}
 
-dict_map['AGV']['mapa_faturamento'] = {'CNPJ': (1050, 1400, 1790, 1845),'con': (432, 658, 320, 360), 'nome': (1037, 1412, 1752, 1793),'PO':(440, 2330, 860, 1080) ,
-                                      'valor': (1933,2327, 1453, 1505)}
+dict_map['AGV']['mapa_faturamento'] = {'CNPJ': (1050, 1400, 1790, 1845),'con': (940, 1140, 735, 800), 'nome': (1037, 1412, 1752, 1793),'PO':(440, 2330, 860, 1080) ,
+                                      'valor': (1933,2480, 1445, 1505)}
 
 dict_map['AGV']['recibo_locacao'] = {'CNPJ': (230, 450, 430, 460),'con': (1949, 2105, 830, 889), 'nome': ( 1037, 1453, 2133, 2177),'PO':(255, 537, 1225, 1300) ,
                                       'valor': (1601,2057, 1580, 1630)}
@@ -109,8 +113,8 @@ dict_map['SHIFT']['nota_debito'] = {'con': ( 557, 703, 853, 893), 'vencimento': 
 
 #RUNTEC
 dict_map['RUNTEC'] = {}
-dict_map['RUNTEC']['NFS'] = {'CNPJ': (577, 853, 752, 790), 'con': (1860, 1980, 220, 265), 'vencimento': ( 143,313, 1665, 1703),
-                          'nome': ( 737, 1163, 610, 645), 'PO': (551, 751, 1473, 1511), 'valor': (687,817, 2583, 2617), 'descricao': (49, 2043, 1399, 1439)}
+dict_map['RUNTEC']['NFS'] = {'CNPJ': (577, 890, 750, 790), 'con': (1790, 1980, 210, 280), 'vencimento': ( 143,420, 1650, 1730),
+                          'nome': ( 737, 1400, 600, 650), 'PO': (551, 751, 1473, 1511), 'valor': (687,890, 2583, 2630), 'descricao': (49, 2043, 1399, 1439)}
 
 #dict_map['RUNTEC']['mapa_faturamento'] = {}
 #dict_map['RUNTEC']['recibo_locacao'] = {}
@@ -211,8 +215,8 @@ dict_map[None]['fatura_frete'] = {'CNPJ':(322,440,102,113), 'vencimento':(819,90
 
 #MULTI RIO
 dict_map['MULTIRIO'] = {}
-dict_map['MULTIRIO']['NFS'] = {'CNPJ': (213,365,295,313), 'con': (939,1050,157,135), 'vencimento': (898,1005,205,182),
-                          'nome': (278,618,320,339), 'PO': (115,1089,601,1066), 'valor': (639,810,1098,1076), 'descricao': (115,1089,601,1066)}
+dict_map['MULTIRIO']['NFS'] = {'CNPJ': (213,365,295,313), 'con': (939,1050,135,157), 'vencimento': (898,1005,182,205),
+                          'nome': (278,618,320,339), 'PO': (115,1089,601,1066), 'valor': (639,810,1076,1098), 'descricao': (115,1089,601,1066)}
 
 #dict_map['MULTIRIO']['fatura_duplicata'] = {}
 #dict_map['MULTIRIO']['custo_frete'] = {}
@@ -222,27 +226,37 @@ dict_map['MULTIRIO']['NFS'] = {'CNPJ': (213,365,295,313), 'con': (939,1050,157,1
 
 #ICTSI
 dict_map['ICTSI'] = {}
-dict_map['ICTSI']['NFS'] = {'CNPJ': (359,510,313,293), 'con': (957,1082,158,135), 'vencimento': (918,1030,202,181),
-                          'nome': (425,700,338,320), 'PO': (122,1111,1231,1063), 'valor': (650,785,1092,1071), 'descricao': (122,1111,1063,600)}
+dict_map['ICTSI']['NFS'] = {'CNPJ': (359,510,293,313), 'con': (957,1082,135,158), 'vencimento': (918,1030,181,202),
+                          'nome': (425,700,320,338), 'PO': (122,1111,1063,1231), 'valor': (650,785,1071,1092), 'descricao': (122,1111,600,1063)}
 #dict_map['ICTSI']['fatura_duplicata'] = {}
 #dict_map['ICTSI']['custo_frete'] = {}
 #dict_map['ICTSI']['mapa_faturamento'] = {}
 #dict_map['ICTSI']['recibo_locacao'] = {}
 #dict_map['ICTSI']['nota_debito'] = {}
-dict_map['ICTSI']['detalhamento_notafiscal'] = {'CIF':(480,628,655,636),'taxa':(990,650,655,635),'descricao':(62,1195,1395,100),'tipoServico':(60,1170,1725,1525),
-                                                'nome':(150,265,99,45),'moeda':(995,1105,689,670),'periodo':(62,145,919,898),'valorImposto':(975,1090,916,900),'valorSem':(490,635,916,900)}
+dict_map['ICTSI']['detalhamento_notafiscal'] = {'CIF':(480,628,636,655),'taxa':(990,650,635,655),'descricao':(62,1195,100,1395),'tipoServico':(60,1170,1525,1725),'DI':(170,300,635,655),
+                                                'nome':(150,265,45,99),'moeda':(995,1105,670,689),'periodo':(62,145,898,919),'valorImposto':(975,1090,900,916),'valorSem':(490,635,900,916)}
 
 #DHL
 dict_map['DHL'] = {}
-dict_map['DHL']['NFS'] = {'CNPJ': (361,571,267,249), 'con': (970,1042,54,73), 'vencimento': (960,1058,168,152),
-                          'nome': (445,795,298,266),'valor': (355,465,1345,1330), 'descricao': (23,1209,1219,593)}
+dict_map['DHL']['NFS'] = {'CNPJ': (361,571,249,267), 'con': (970,1042,54,73), 'vencimento': (960,1058,152,168),
+                          'nome': (445,795,266,298),'valor': (355,465,1330,1345), 'descricao': (23,1209,593,1219)}
 
 #dict_map['DHL']['fatura_duplicata'] = {}
 #dict_map['DHL']['custo_frete'] = {}
 #dict_map['DHL']['mapa_faturamento'] = {}
 #dict_map['DHL']['recibo_locacao'] = {}
-dict_map['DHL']['nota_debito'] = {'con': (1089,1155,40,21), 'vencimento': (865,945,190,171),
-                          'nome': (267,600,45,77), 'valor': (969,1200,1445,1423),'descricao':(22,1201,1153,533)}
+dict_map['DHL']['nota_debito'] = {'con': (1089,1155, 21, 40), 'vencimento': (865,945,171,190),
+                          'nome': (267,600,45,77), 'valor': (969,1200,1423,1445),'descricao':(22,1201,533,1153)}
+
+#MULTITERMINAIS
+dict_map['MULTITERMINAIS'] = {}
+#dict_map['MULTITERMINAIS']['NFS'] = {}
+#dict_map['MULTITERMINAIS']['fatura_duplicata'] = {}
+#dict_map['MULTITERMINAIS']['custo_frete'] = {}
+#dict_map['MULTITERMINAIS']['mapa_faturamento'] = {}
+#dict_map['MULTITERMINAIS']['recibo_locacao'] = {}
+#dict_map['MULTITERMINAIS']['nota_debito'] = {}
+dict_map['MULTITERMINAIS']['minuta_calculo'] = {'nome':(160,310,125,160),'valorCIF':(925,1095,402,425),'valor':(965,1091,969,1000),'CNTR':(405,427,360,535),'descricao':(160,530,735,850)}
 
 companies = ['AGV LOGISTICA SA', 
             'RODOLOG TRANSPORTES MULTIMODAIS LTDA', 
@@ -258,5 +272,70 @@ companies = ['AGV LOGISTICA SA',
             'FL BRASIL HOLDING LOGISTICA E TRANSPORTE LTDA',
             'MULTI RIO OPERACOES PORTUARIAS S/A',
             'ICTSI RIO BRASIL TERMINAL 1 SA',
-            'DHL GLOBAL FORWARDING (BRAZIL) LOGISTICS LTDA'
+            'DHL GLOBAL FORWARDING (BRAZIL) LOGISTICS LTDA',
+            'MULTITERMINAIS LOGISTICA INTEGRADA'
             ]
+
+listaCNPJ = [
+            '05.214.772/0001-40', # - rodolog ok
+            '02.905.424/0066-76', # - agv ko
+            '21.026.581/0001-00', # - moveideias
+            '29.519.838/0001-14', # - rio
+            '04.134.548/0001-85', # - runtec
+            '24.936.646/0001-43', # - Denise
+            '08.709.969/0001-48', # - Shift
+            '31.334.600/0001-10', # - GKO
+            '35.905.090/0001-44', # - Diremadi
+            '18.233.211/0015-35', # - FL
+            '04.887.927/0015-41', # - Andreani
+            '07.117.576/0001-82', # - Line
+            '02.887.283/0002-60', #MULTIRIO
+            '10.228.777/0008-38', #DHL
+            '02.373.517/0001-51' #ICTSI
+            ]
+
+mapNameCNPJ = {
+            '05.214.772/0001-40': 'RODOLOG TRANSPORTES MULTIMODAIS LTDA',
+            '02.905.424/0066-76': 'AGV LOGISTICA SA',
+            '21.026.581/0001-00': 'MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA',
+            '29.519.838/0001-14': 'RIO LOPES TRANSPORTES LTDA',
+            '04.134.548/0001-85': 'RUNTEC INFOMATICA LTDA',
+            '24.936.646/0001-43': 'DENISE DOS ANJOS PINTO LUCENA',
+            '08.709.969/0001-48': 'SHIFT GESTAO DE SERVICOS LTDA',
+            '31.334.600/0001-10': 'GKO INFORMATICA LTDA',
+            '35.905.090/0001-44': 'DIREMADI MARKETING E SERVICOS LTDA',
+            '18.233.211/0015-35': 'FL BRASIL HOLDING LOGISTICA E TRANSPORTE LTDA',
+            '04.887.927/0015-41': 'ANDREANI LOGISTICA LTDA',
+            '07.117.576/0001-82': 'LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA',
+            '02.887.283/0002-60': 'MULTI RIO OPERACOES PORTUARIAS S/A',
+            '10.228.777/0008-38': 'DHL GLOBAL FORWARDING (BRAZIL) LOGISTICS LTDA',
+            '02.373.517/0001-51': 'ICTSI RIO BRASIL TERMINAL 1 SA'
+            }
+
+mapLongShort = {'AGV': 'AGV LOGISTICA SA', 
+                'RODOLOG': 'RODOLOG TRANSPORTES MULTIMODAIS LTDA', 
+                'DIREMADI': 'DIREMADI MARKETING E SERVICOS LTDA', 
+                'SHIFT': 'SHIFT GESTAO DE SERVICOS LTDA', 
+                'RUNTEC': 'RUNTEC INFOMATICA LTDA', 
+                'DENISE': 'DENISE DOS ANJOS PINTO LUCENA',
+                'GKO': 'GKO INFORMATICA LTDA',
+                'MOVEIDEIAS': 'MOVEIDEIAS CONSULTORIA E INTEGRACAO DE NEGOCIOS LTDA',
+                'RIO': 'RIO LOPES TRANSPORTES LTDA',
+                'LINE': 'LINE EXPRESS TRANSPORTES E DISTRIBUICAO LTDA',
+                'ANDREANI': 'ANDREANI LOGISTICA LTDA',
+                'FL': 'FL BRASIL HOLDING LOGISTICA E TRANSPORTE LTDA',
+                'MULTI': 'MULTI RIO OPERACOES PORTUARIAS S/A',
+                'ICTSI': 'ICTSI RIO BRASIL TERMINAL 1 SA',
+                'DHL': 'DHL GLOBAL FORWARDING (BRAZIL) LOGISTICS LTDA',
+                'MULTITERMINAIS': 'MULTITERMINAIS LOGISTICA INTEGRADA'
+                }
+
+field_validation = {
+                    'nome': r'(?:[a-zA-Z]+| |\(|\)|[0-9])+',
+                    'valor': r'(?:[0-9]+\.?)+(?:,[0-9][0-9])?',
+                    'vencimento': r'[0-9][0-9]/[0-9][0-9]/(?:[0-9][0-9][0-9][0-9]|[0-9][0-9])',
+                    'con': r'[a-z]*[A-Z]*[0-9]+',
+                    'CNPJ': r'[0-9][0-9]\.[0-9][0-9][0-9]\.[0-9][0-9][0-9]/[0-9][0-9][0-9][0-9]-[0-9][0-9]',
+                    'PO': r'[0-9][0-9]+',
+                    'DI': r'[0-9][0-9]+'
+                    }
